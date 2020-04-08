@@ -44,7 +44,7 @@ app.delete('/repositories/:id', (request, response) => {
     return response.status(400).json({ error: 'Repository does not exists' })
   }
   repositories.splice(repositoryIndex, 1)
-  return response.status(201).send()
+  return response.status(204).send()
 })
 
 app.post('/repositories/:id/like', (request, response) => {
