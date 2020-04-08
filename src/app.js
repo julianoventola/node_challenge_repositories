@@ -23,20 +23,28 @@ app.post('/repositories', (request, response) => {
 
 app.put('/repositories/:id', (request, response) => {
   const { id } = request.params
-  const { title, url, techs } = request.body
   const repositoryIndex = repositories.findIndex(
     (repository) => repository.id === id
   )
   if (repositoryIndex < 0) {
     return response.status(400).json({ error: 'Repository does not exists' })
   }
+  const { title, url, techs } = request.body
   const { likes } = repositories[repositoryIndex]
   repositories[repositoryIndex] = { id, title, url, techs, likes }
   return response.json(repositories)
 })
 
-app.delete('/repositories/:id', (req, res) => {
-  // TODO
+app.delete('/repositories/:id', (request, response) => {
+  const { id } = request.params
+  const repositoryIndex = repositories.findIndex(
+    (repository) => repository.id === id
+  )
+  if (repositoryIndex < 0) {
+    return response.status(400).json({ error: 'Repository does not exists' })
+  }
+  repositories.splice(repositoryIndex, 1)
+  return response.status(201).send()
 })
 
 app.post('/repositories/:id/like', (request, response) => {
